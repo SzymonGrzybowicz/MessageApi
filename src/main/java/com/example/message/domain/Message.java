@@ -7,13 +7,13 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@Entity(name = "messages")
+@Entity(name = "MESSAGES")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Message {
 
-    @Column(name = "message_id")
+    @Column(name = "MESSAGE_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
@@ -26,10 +26,10 @@ public class Message {
     private long timestamp;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
     private User creator;
 
     @ManyToOne
-    @JoinColumn(name = "conversation_id", nullable = false)
+    @JoinColumn(name = "CONVERSATION_ID", nullable = false)
     private Conversation conversation;
 }

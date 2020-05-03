@@ -19,14 +19,14 @@ public class Conversation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "conversation_id")
+    @Column(name = "CONVERSATION_ID")
     private long id;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "join_conversation_members",
-            joinColumns = {@JoinColumn(name = "conversation_id", referencedColumnName = "conversation_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")}
+            name = "JOIN_CONVERSATION_MEMBERS",
+            joinColumns = {@JoinColumn(name = "CONVERSATION_ID", referencedColumnName = "CONVERSATION_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")}
     )
     private List<User> members;
 }

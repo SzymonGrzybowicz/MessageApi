@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name = "users")
+@Entity(name = "USERS")
 @Getter
 @NoArgsConstructor
 public class User {
@@ -20,7 +20,7 @@ public class User {
     }
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "USER_ID")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
@@ -36,9 +36,9 @@ public class User {
     @Column
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-            name = "join_user_conversations",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "conversation_id", referencedColumnName = "conversation_id")}
+            name = "JOIN_USER_CONVERSATIONS",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "CONVERSATION_ID", referencedColumnName = "CONVERSATION_ID")}
     )
     private final List<Conversation> conversations = new ArrayList<>();
 }
