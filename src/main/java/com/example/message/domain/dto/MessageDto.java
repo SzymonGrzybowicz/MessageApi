@@ -16,6 +16,9 @@ public class MessageDto {
     @JsonProperty(value = "content")
     private final String content;
 
+    @JsonProperty(value = "timestamp")
+    private final long timestamp;
+
     @JsonProperty(value = "creator_id")
     private final long creatorID;
 
