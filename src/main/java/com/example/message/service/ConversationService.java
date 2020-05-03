@@ -2,7 +2,9 @@ package com.example.message.service;
 
 import com.example.message.domain.Conversation;
 import com.example.message.domain.User;
+import com.example.message.domain.dto.ConversationDto;
 import com.example.message.exception.IncorrectDataException;
+import com.example.message.mapper.ConversationMapper;
 import com.example.message.repository.ConversationRepository;
 import com.example.message.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,10 @@ import java.util.Optional;
 @Service
 public class ConversationService {
 
-    public ConversationService(UserRepository userRepository, ConversationRepository conversationRepository) {
+    public ConversationService(UserRepository userRepository, ConversationRepository conversationRepository, ConversationMapper conversationMapper) {
         this.userRepository = userRepository;
         this.conversationRepository = conversationRepository;
+        this.conversationMapper = conversationMapper;
     }
 
     public boolean deleteConversationForUser(long userId, long conversationId) {
@@ -46,6 +49,11 @@ public class ConversationService {
         return optionalUser.get().getConversations();
     }
 
+    public void createConversation(ConversationDto conversationDto) {
+        conversationRepository.save(conversationMapper.mapToDomain(conversationDto));
+    }
+
+    private final ConversationMapper conversationMapper;
     private final UserRepository userRepository;
     private final ConversationRepository conversationRepository;
 }

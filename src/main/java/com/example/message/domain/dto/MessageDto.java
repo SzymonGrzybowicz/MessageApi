@@ -4,24 +4,34 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
+@NoArgsConstructor
 public class MessageDto {
 
+    public MessageDto(String content, long timestamp, long creatorID, long conversationId) {
+        this.content = content;
+        this.timestamp = timestamp;
+        this.creatorID = creatorID;
+        this.conversationId = conversationId;
+    }
+
     @JsonProperty(value = "id")
-    private final long id;
+    private long id;
 
     @JsonProperty(value = "content")
-    private final String content;
+    private String content;
 
     @JsonProperty(value = "timestamp")
-    private final long timestamp;
+    private long timestamp;
 
     @JsonProperty(value = "creator_id")
-    private final long creatorID;
+    private long creatorID;
 
     @JsonProperty(value = "conversation_id")
-    private final long conversationId;
+    private long conversationId;
 }

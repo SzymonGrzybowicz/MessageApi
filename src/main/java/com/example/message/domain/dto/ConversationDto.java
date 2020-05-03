@@ -13,7 +13,7 @@ import java.util.List;
 public class ConversationDto {
 
     @JsonProperty(value = "conversation_id")
-    private final long id;
+    private long id;
 
     @JsonProperty(value = "members")
     private final List<UserDto> members;

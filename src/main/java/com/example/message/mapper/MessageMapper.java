@@ -21,6 +21,7 @@ public class MessageMapper implements IMapper<Message, MessageDto>{
         return new Message(
                 messageDto.getId(),
                 messageDto.getContent(),
+                messageDto.getTimestamp(),
                 userRepository.findById(messageDto.getCreatorID()).orElse(null),
                 conversationRepository.findById(messageDto.getConversationId()).orElse(null)
         );
@@ -30,6 +31,7 @@ public class MessageMapper implements IMapper<Message, MessageDto>{
     public MessageDto mapToDto(Message message) {
         return new MessageDto(
                 message.getId(), message.getContent(),
+                message.getTimestamp(),
                 message.getCreator().getId(),
                 message.getConversation().getId()
         );

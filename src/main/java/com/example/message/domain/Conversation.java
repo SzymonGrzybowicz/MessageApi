@@ -13,6 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 public class Conversation {
 
+    public Conversation(List<User> members) {
+        this.members = members;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "conversation_id")

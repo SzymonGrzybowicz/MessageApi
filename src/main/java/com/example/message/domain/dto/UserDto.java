@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import java.util.List;
-
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
@@ -23,7 +21,4 @@ public class UserDto {
 
     @JsonProperty(value = "mail")
     private final String mail;
-
-    @JsonProperty(value = "conversations")
-    private final List<ConversationDto> conversations;
 }

@@ -12,12 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 public class User {
 
-    public User(String name, String password, String mail) {
-        this.name = name;
-        this.password = password;
-        this.mail = mail;
-    }
-
     public User(long id, String name, String password, String mail) {
         this.id = id;
         this.name = name;
