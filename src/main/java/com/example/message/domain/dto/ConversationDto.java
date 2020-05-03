@@ -5,20 +5,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
-public class UserDto {
+public class ConversationDto {
 
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "conversation_id")
     private final long id;
 
-    @JsonProperty(value = "name")
-    private final String name;
+    @JsonProperty(value = "members")
+    private final List<UserDto> members;
 
-    @JsonProperty(value = "password")
-    private final String password;
-
-    @JsonProperty(value = "mail")
-    private final String mail;
 }
