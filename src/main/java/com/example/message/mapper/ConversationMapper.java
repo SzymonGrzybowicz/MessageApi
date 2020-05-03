@@ -4,31 +4,23 @@ import com.example.message.domain.Conversation;
 import com.example.message.domain.dto.ConversationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
-public class ConversationMapper {
+public class ConversationMapper implements IMapper<Conversation, ConversationDto> {
 
     @Autowired
     public ConversationMapper(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
-    public Conversation mapToConversation(ConversationDto conversationDto) {
-        return new Conversation(conversationDto.getId(), userMapper.mapToUserList(conversationDto.getMembers()));
+    @Override
+    public Conversation mapToDomain(ConversationDto conversationDto) {
+        return new Conversation(conversationDto.getId(), userMapper.mapToDomainList(conversationDto.getMembers()));
     }
 
-    public ConversationDto mapToConversationDto(Conversation conversation) {
-        return new ConversationDto(conversation.getId(), userMapper.mapToUserDtoList(conversation.getMembers()));
-    }
-
-    public List<Conversation> mapToConversationList(List<ConversationDto> conversationDtoList) {
-        return  conversationDtoList.stream().map(this::mapToConversation).collect(Collectors.toList());
-    }
-
-    public List<ConversationDto> mapToConversationDtoList(List<Conversation> conversationList) {
-        return conversationList.stream().map(this::mapToConversationDto).collect(Collectors.toList());
+    @Override
+    public ConversationDto mapToDto(Conversation conversation) {
+        return new ConversationDto(conversation.getId(), userMapper.mapToDtoList(conversation.getMembers()));
     }
 
     private final UserMapper userMapper;

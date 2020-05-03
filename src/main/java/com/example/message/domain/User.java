@@ -1,6 +1,5 @@
 package com.example.message.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

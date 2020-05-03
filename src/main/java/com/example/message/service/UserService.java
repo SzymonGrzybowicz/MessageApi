@@ -20,7 +20,7 @@ public class UserService {
         if (repository.findByMail(userDto.getMail()) != null) {
             return false;
         }
-        User user = mapper.mapToUser(userDto);
+        User user = mapper.mapToDomain(userDto);
         repository.save(user);
         return true;
     }
@@ -28,7 +28,7 @@ public class UserService {
     public UserDto getUserByMail(String mail) {
         User user = repository.findByMail(mail);
         if (user != null) {
-            return mapper.mapToUserDto(user);
+            return mapper.mapToDto(user);
         }
         return null;
     }
