@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -20,18 +21,23 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public void registerUser(@RequestBody UserDto userDto, HttpServletResponse response) {
-        if (!service.createUser(userDto)){
+        if (!service.createUser(userDto)) {
             response.setStatus(HttpServletResponse.SC_CONFLICT);
         }
     }
 
-    @RequestMapping(value = "/{mail}", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET, value = "/{mail}")
     public UserDto getByMail(@PathVariable String mail, HttpServletResponse response) {
         UserDto userDto = service.getUserByMail(mail);
         if (userDto == null) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
         return userDto;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/all")
+    public List<UserDto> getAllUsers(){
+        return service.getAllUsers();
     }
 
     private final UserService service;
