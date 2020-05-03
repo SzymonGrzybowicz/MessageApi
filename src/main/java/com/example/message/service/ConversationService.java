@@ -2,10 +2,12 @@ package com.example.message.service;
 
 import com.example.message.domain.Conversation;
 import com.example.message.domain.User;
+import com.example.message.exception.IncorrectDataException;
 import com.example.message.repository.ConversationRepository;
 import com.example.message.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +34,16 @@ public class ConversationService {
         user.getConversations().remove(optionalConversation.get());
         userRepository.save(user);
         return true;
+    }
+
+    public List<Conversation> getConversationForUser(long userId) throws IncorrectDataException {
+        Optional<User> optionalUser = userRepository.findById(userId);
+
+        if (!optionalUser.isPresent()) {
+            throw new IncorrectDataException();
+        }
+
+        return optionalUser.get().getConversations();
     }
 
     private final UserRepository userRepository;

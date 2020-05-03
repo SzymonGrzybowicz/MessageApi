@@ -1,9 +1,13 @@
 package com.example.message.controller;
 
+import com.example.message.domain.Conversation;
+import com.example.message.exception.IncorrectDataException;
 import com.example.message.service.ConversationService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -12,6 +16,16 @@ public class ConversationController {
 
     public ConversationController(ConversationService conversationService) {
         this.conversationService = conversationService;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
+    public List<Conversation> getConversationsForUser(@PathVariable long userId, HttpServletResponse response) {
+        try {
+            return conversationService.getConversationForUser(userId);
+        } catch (IncorrectDataException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            return new ArrayList<>();
+        }
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/{userId}/{conversationId}")
