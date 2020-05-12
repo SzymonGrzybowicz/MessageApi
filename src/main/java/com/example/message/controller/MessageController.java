@@ -19,7 +19,7 @@ public class MessageController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void getConversationsForUser(@RequestBody MessageDto messageDto) {
+    public void onNewMessage(@RequestBody MessageDto messageDto) {
         messageService.onNewMessage(messageMapper.mapToDomain(messageDto));
     }
 

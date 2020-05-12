@@ -22,7 +22,7 @@ public class Conversation {
     @Column(name = "CONVERSATION_ID")
     private long id;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "JOIN_CONVERSATION_MEMBERS",
             joinColumns = {@JoinColumn(name = "CONVERSATION_ID", referencedColumnName = "CONVERSATION_ID")},
