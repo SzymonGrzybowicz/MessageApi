@@ -27,6 +27,14 @@ public class UserService {
         return true;
     }
 
+    public UserDto loginUser(UserDto userDto) {
+        User user = repository.findByMail(userDto.getMail());
+        if (user != null && user.getPassword().equals(userDto.getPassword())) {
+            return mapper.mapToDto(user);
+        }
+        return null;
+    }
+
     public UserDto getUserByMail(String mail) {
         User user = repository.findByMail(mail);
         if (user != null) {

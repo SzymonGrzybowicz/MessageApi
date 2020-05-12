@@ -26,6 +26,16 @@ public class UserController {
         }
     }
 
+
+    @RequestMapping(method = RequestMethod.POST, value = "/login")
+    public UserDto loginUser(@RequestBody UserDto userDto, HttpServletResponse response) {
+        UserDto loggedUser = service.loginUser(userDto);
+        if (loggedUser == null) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
+        return loggedUser;
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/{mail}")
     public UserDto getByMail(@PathVariable String mail, HttpServletResponse response) {
         UserDto userDto = service.getUserByMail(mail);
