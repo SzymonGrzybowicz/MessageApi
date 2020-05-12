@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 
-@Entity
+@Entity(name = "CONVERSATIONS")
 @NoArgsConstructor
 @Getter
 @AllArgsConstructor
@@ -22,7 +22,7 @@ public class Conversation {
     @Column(name = "CONVERSATION_ID")
     private long id;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany
     @JoinTable(
             name = "JOIN_CONVERSATION_MEMBERS",
             joinColumns = {@JoinColumn(name = "CONVERSATION_ID", referencedColumnName = "CONVERSATION_ID")},

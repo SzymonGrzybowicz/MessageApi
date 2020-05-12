@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "USERS")
 @Getter
@@ -32,13 +30,4 @@ public class User {
 
     @Column
     private String mail;
-
-    @Column
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "JOIN_USER_CONVERSATIONS",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")},
-            inverseJoinColumns = {@JoinColumn(name = "CONVERSATION_ID", referencedColumnName = "CONVERSATION_ID")}
-    )
-    private final List<Conversation> conversations = new ArrayList<>();
 }

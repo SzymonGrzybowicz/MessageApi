@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ConversationService {
@@ -29,12 +30,12 @@ public class ConversationService {
         }
 
         User user = optionalUser.get();
-        Optional<Conversation> optionalConversation = user.getConversations().stream().filter(c -> c.getId() == conversationId).findAny();
-        if (!optionalConversation.isPresent()) {
-            return false;
-        }
-
-        user.getConversations().remove(optionalConversation.get());
+//        Optional<Conversation> optionalConversation = user.getConversations().stream().filter(c -> c.getId() == conversationId).findAny();
+//        if (!optionalConversation.isPresent()) {
+//            return false;
+//        }
+//
+//        user.getConversations().remove(optionalConversation.get());
         userRepository.save(user);
         return true;
     }
@@ -46,7 +47,10 @@ public class ConversationService {
             throw new IncorrectDataException();
         }
 
-        return optionalUser.get().getConversations();
+
+        return conversationRepository.findAll()
+                .stream()
+                .filter(c -> c.getMembers().stream().anyMatch(u -> u.getId() == userId)).collect(Collectors.toList());
     }
 
     public void createConversation(ConversationDto conversationDto) {
