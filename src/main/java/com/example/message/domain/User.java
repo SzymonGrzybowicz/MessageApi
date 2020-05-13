@@ -5,18 +5,19 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "USERS")
 @Getter
 @NoArgsConstructor
 public class User {
 
-    public User(long id, String name, String password, String mail, String firebaseAuthToken) {
+    public User(long id, String name, String password, String mail, List<FirebaseAuthToken> firebaseAuthTokens) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.mail = mail;
-        this.firebaseAuthToken = firebaseAuthToken;
+        this.firebaseAuthTokens = firebaseAuthTokens;
     }
 
     @Id
@@ -33,7 +34,11 @@ public class User {
     @Column
     private String mail;
 
-    @Setter
-    @Column(length = 1000)
-    private String firebaseAuthToken;
+    @OneToMany
+    @JoinTable(
+            name="USER_AUTH_ID",
+            joinColumns = @JoinColumn( name="FIREBASE_AUTH_TOKEN_ID"),
+            inverseJoinColumns = @JoinColumn( name="USER_ID")
+    )
+    private List<FirebaseAuthToken> firebaseAuthTokens;
 }

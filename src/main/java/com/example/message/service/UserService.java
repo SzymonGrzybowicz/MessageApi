@@ -1,23 +1,26 @@
 package com.example.message.service;
 
+import com.example.message.domain.FirebaseAuthToken;
 import com.example.message.domain.User;
 import com.example.message.domain.dto.UserDto;
 import com.example.message.mapper.UserMapper;
+import com.example.message.repository.FirebaseAuthTokenRepository;
 import com.example.message.repository.UserRepository;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
     @Autowired
-    public UserService(UserRepository repository, UserMapper mapper) {
+    public UserService(UserRepository repository, UserMapper mapper, FirebaseAuthTokenRepository firebaseRepository) {
         this.repository = repository;
         this.mapper = mapper;
+        this.firebaseRepository = firebaseRepository;
     }
 
     public boolean createUser(UserDto userDto) {
@@ -25,14 +28,8 @@ public class UserService {
             return false;
         }
         User user = mapper.mapToDomain(userDto);
-        try {
-            String firebaseAuthToken = FirebaseAuth.getInstance().createCustomToken(user.getMail());
-            user.setFirebaseAuthToken(firebaseAuthToken);
-            repository.save(user);
-            return true;
-        } catch (FirebaseAuthException e) {
-            return false;
-        }
+        repository.save(user);
+        return true;
     }
 
     public UserDto loginUser(UserDto userDto) {
@@ -51,10 +48,30 @@ public class UserService {
         return null;
     }
 
+
+    public void addFirebaseAuthToken(long userId, String authToken) {
+        Optional<User> optionalUser = repository.findById(userId);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            boolean contains = user.getFirebaseAuthTokens().stream().anyMatch(a -> a.getFirebaseAuthToken().equals(authToken));
+            if (contains) {
+                return;
+            }
+            List<FirebaseAuthToken> tokens = firebaseRepository.findAll().stream().filter(a -> a.getFirebaseAuthToken().equals(authToken)).collect(Collectors.toList());
+            for (FirebaseAuthToken token: tokens) {
+                firebaseRepository.delete(token);
+            }
+            FirebaseAuthToken token = firebaseRepository.save(new FirebaseAuthToken(authToken));
+            user.getFirebaseAuthTokens().add(token);
+            repository.save(user);
+        }
+    }
+
     public List<UserDto> getAllUsers() {
         return mapper.mapToDtoList(repository.findAll());
     }
 
     private final UserRepository repository;
     private final UserMapper mapper;
+    private final FirebaseAuthTokenRepository firebaseRepository;
 }

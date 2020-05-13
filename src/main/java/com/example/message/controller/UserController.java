@@ -26,7 +26,6 @@ public class UserController {
         }
     }
 
-
     @RequestMapping(method = RequestMethod.POST, value = "/login")
     public UserDto loginUser(@RequestBody UserDto userDto, HttpServletResponse response) {
         UserDto loggedUser = service.loginUser(userDto);
@@ -48,6 +47,11 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET, value = "/all")
     public List<UserDto> getAllUsers(){
         return service.getAllUsers();
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/firebase/{userId}/{authToken}")
+    public void addAuthToken(@PathVariable long userId, @PathVariable String authToken) {
+        service.addFirebaseAuthToken(userId, authToken);
     }
 
     private final UserService service;

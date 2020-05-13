@@ -22,7 +22,4 @@ public class UserDto {
 
     @JsonProperty(value = "mail")
     private final String mail;
-
-    @JsonProperty(value = "firebaseAuthToken")
-    private final String firebaseAuthToken;
 }
