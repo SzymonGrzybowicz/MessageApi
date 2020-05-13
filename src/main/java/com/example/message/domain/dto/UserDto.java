@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -21,4 +22,7 @@ public class UserDto {
 
     @JsonProperty(value = "mail")
     private final String mail;
+
+    @JsonProperty(value = "firebaseAuthToken")
+    private final String firebaseAuthToken;
 }

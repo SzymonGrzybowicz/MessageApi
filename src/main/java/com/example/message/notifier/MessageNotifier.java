@@ -9,6 +9,11 @@ import java.util.List;
 @Component
 public class MessageNotifier implements Notifier {
 
+    public MessageNotifier() {
+        notifiers = new ArrayList<>();
+        notifiers.add(new FirebaseNotifier());
+    }
+
     @Override
     public void notify(Message message){
         for (Notifier notifier : notifiers) {
@@ -16,5 +21,5 @@ public class MessageNotifier implements Notifier {
         }
     }
 
-    List<Notifier> notifiers = new ArrayList<>();
+    private final List<Notifier> notifiers;
 }

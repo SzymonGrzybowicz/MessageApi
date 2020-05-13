@@ -9,11 +9,11 @@ public class UserMapper implements IMapper<User, UserDto> {
 
     @Override
     public User mapToDomain(UserDto userDto) {
-        return new User(userDto.getId(), userDto.getName(), userDto.getPassword(), userDto.getMail());
+        return new User(userDto.getId(), userDto.getName(), userDto.getPassword(), userDto.getMail(), userDto.getFirebaseAuthToken());
     }
 
     @Override
     public UserDto mapToDto(User user) {
-        return new UserDto(user.getId(), user.getName(), null, user.getMail());
+        return new UserDto(user.getId(), user.getName(), null, user.getMail(), user.getFirebaseAuthToken());
     }
 }

@@ -4,6 +4,8 @@ import com.example.message.domain.User;
 import com.example.message.domain.dto.UserDto;
 import com.example.message.mapper.UserMapper;
 import com.example.message.repository.UserRepository;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +25,14 @@ public class UserService {
             return false;
         }
         User user = mapper.mapToDomain(userDto);
-        repository.save(user);
-        return true;
+        try {
+            String firebaseAuthToken = FirebaseAuth.getInstance().createCustomToken(user.getMail());
+            user.setFirebaseAuthToken(firebaseAuthToken);
+            repository.save(user);
+            return true;
+        } catch (FirebaseAuthException e) {
+            return false;
+        }
     }
 
     public UserDto loginUser(UserDto userDto) {

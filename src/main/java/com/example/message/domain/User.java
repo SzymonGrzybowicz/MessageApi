@@ -2,6 +2,7 @@ package com.example.message.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -10,11 +11,12 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class User {
 
-    public User(long id, String name, String password, String mail) {
+    public User(long id, String name, String password, String mail, String firebaseAuthToken) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.mail = mail;
+        this.firebaseAuthToken = firebaseAuthToken;
     }
 
     @Id
@@ -30,4 +32,8 @@ public class User {
 
     @Column
     private String mail;
+
+    @Setter
+    @Column(length = 1000)
+    private String firebaseAuthToken;
 }
