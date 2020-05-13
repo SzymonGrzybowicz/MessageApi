@@ -50,7 +50,7 @@ public class ConversationService {
 
         return conversationRepository.findAll()
                 .stream()
-                .filter(c -> c.getMembers().stream().anyMatch(u -> u.getId() == userId)).collect(Collectors.toList());
+                .filter(c -> c.getMembers().stream().anyMatch(u -> u.getId() == userId)).collect(Collectors.toList()); //todo
     }
 
     public void createConversation(ConversationDto conversationDto) {

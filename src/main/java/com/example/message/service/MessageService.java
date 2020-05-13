@@ -6,6 +6,9 @@ import com.example.message.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class MessageService {
 
@@ -19,6 +22,10 @@ public class MessageService {
         message.setTimestamp(System.currentTimeMillis());
         messageRepository.save(message);
         messageNotifier.notify(message);
+    }
+
+    public List<Message> getMessages(long conversationId) {
+        return messageRepository.findAll().stream().filter(m -> m.getConversation().getId() == conversationId).collect(Collectors.toList());
     }
 
     private final MessageRepository messageRepository;

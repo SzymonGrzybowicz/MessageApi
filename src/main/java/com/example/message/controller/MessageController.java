@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/message")
@@ -22,6 +24,12 @@ public class MessageController {
     public void onNewMessage(@RequestBody MessageDto messageDto) {
         messageService.onNewMessage(messageMapper.mapToDomain(messageDto));
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{conversationId}")
+    public List<MessageDto> getMessagesForConversation(@PathVariable long conversationId){
+        return messageMapper.mapToDtoList(messageService.getMessages(conversationId));
+    }
+
 
     private final MessageService messageService;
     private final MessageMapper messageMapper;
