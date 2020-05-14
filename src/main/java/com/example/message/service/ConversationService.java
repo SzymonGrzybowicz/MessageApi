@@ -9,6 +9,7 @@ import com.example.message.repository.ConversationRepository;
 import com.example.message.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -48,13 +49,30 @@ public class ConversationService {
         }
 
 
-        return conversationRepository.findAll()
-                .stream()
-                .filter(c -> c.getMembers().stream().anyMatch(u -> u.getId() == userId)).collect(Collectors.toList()); //todo
+        return optionalUser.get().getConversations();
     }
 
-    public void createConversation(ConversationDto conversationDto) {
-        conversationRepository.save(conversationMapper.mapToDomain(conversationDto));
+    public boolean createConversationForUser(long userId, ConversationDto conversationDto) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (!optionalUser.isPresent()) {
+            return false;
+        }
+        User user = optionalUser.get();
+        Conversation conversation = conversationMapper.mapToDomain(conversationDto);
+        List<User> withUsers = new ArrayList<>();
+        for (User userFromDto: conversation.getWith()) {
+            optionalUser = userRepository.findById(userFromDto.getId());
+            if (optionalUser.isPresent()){
+                withUsers.add(optionalUser.get());
+            } else {
+                return false;
+            }
+        }
+        conversation.setWith(withUsers);
+        conversationRepository.save(conversation);
+        user.getConversations().add(conversation);
+        userRepository.save(user);
+        return true;
     }
 
     private final ConversationMapper conversationMapper;

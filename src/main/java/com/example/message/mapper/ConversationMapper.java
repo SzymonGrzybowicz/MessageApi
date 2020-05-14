@@ -8,20 +8,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class ConversationMapper implements IMapper<Conversation, ConversationDto> {
 
-    @Autowired
-    public ConversationMapper(UserMapper userMapper) {
-        this.userMapper = userMapper;
-    }
 
     @Override
     public Conversation mapToDomain(ConversationDto conversationDto) {
-        return new Conversation(conversationDto.getId(), userMapper.mapToDomainList(conversationDto.getMembers()));
+        return new Conversation(conversationDto.getId(), userMapper.mapToDomainList(conversationDto.getWith()));
     }
 
     @Override
     public ConversationDto mapToDto(Conversation conversation) {
-        return new ConversationDto(conversation.getId(), userMapper.mapToDtoList(conversation.getMembers()));
+        return new ConversationDto(conversation.getId(), userMapper.mapToDtoList(conversation.getWith()));
     }
 
-    private final UserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 }

@@ -3,6 +3,7 @@ package com.example.message.domain;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,8 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class Conversation {
 
-    public Conversation(List<User> members) {
-        this.members = members;
+    public Conversation(List<User> with) {
+        this.with = with;
     }
 
     @Id
@@ -22,11 +23,12 @@ public class Conversation {
     @Column(name = "CONVERSATION_ID")
     private long id;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY ,cascade = {CascadeType.ALL})
     @JoinTable(
             name = "JOIN_CONVERSATION_MEMBERS",
             joinColumns = {@JoinColumn(name = "CONVERSATION_ID", referencedColumnName = "CONVERSATION_ID")},
             inverseJoinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")}
     )
-    private List<User> members;
+    @Setter
+    private List<User> with;
 }

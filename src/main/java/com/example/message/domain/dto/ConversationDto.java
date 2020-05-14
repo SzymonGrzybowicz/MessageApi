@@ -13,9 +13,9 @@ import java.util.List;
 public class ConversationDto {
 
     @JsonProperty(value = "conversation_id")
-    private long id;
+    private final long id;
 
-    @JsonProperty(value = "members")
-    private final List<UserDto> members;
+    @JsonProperty(value = "with")
+    private final List<UserDto> with;
 
 }

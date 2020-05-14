@@ -13,6 +13,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Message {
 
+    public Message(String content, long timestamp, User creator, Conversation conversation) {
+        this.content = content;
+        this.timestamp = timestamp;
+        this.creator = creator;
+        this.conversation = conversation;
+    }
+
     @Column(name = "MESSAGE_ID")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

@@ -2,7 +2,6 @@ package com.example.message.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -34,11 +33,20 @@ public class User {
     @Column
     private String mail;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY ,cascade = {CascadeType.ALL})
     @JoinTable(
             name="USER_AUTH_ID",
             joinColumns = @JoinColumn( name="FIREBASE_AUTH_TOKEN_ID"),
             inverseJoinColumns = @JoinColumn( name="USER_ID")
     )
     private List<FirebaseAuthToken> firebaseAuthTokens;
+
+    @Column
+    @OneToMany(fetch = FetchType.LAZY ,cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "JOIN_USER_CONVERSATIONS",
+            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")},
+            inverseJoinColumns = {@JoinColumn(name = "CONVERSATION_ID", referencedColumnName = "CONVERSATION_ID")}
+    )
+    private List<Conversation> conversations;
 }

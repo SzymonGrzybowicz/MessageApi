@@ -13,12 +13,15 @@ class FirebaseNotifier implements Notifier {
 
     @Override
     public void notify(com.example.message.domain.Message message) {
-        for (User member: message.getConversation().getMembers()) {
+        for (User member: message.getConversation().getWith()) {
             sendMessage(member.getFirebaseAuthTokens().stream().map(t -> t.getFirebaseAuthToken()).collect(Collectors.toList()));
         }
     }
 
     public void sendMessage(List<String> tokens) {
+        if (tokens.isEmpty()) {
+            return;
+        }
         MulticastMessage message =
                 MulticastMessage.builder()
                         .setNotification(new Notification("New Message", "New Message"))
