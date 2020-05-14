@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -56,6 +57,22 @@ public class MessageService {
                 messageRepository.save(newMessage);
             }
         }
+    }
+
+    private List<Message> sortByTimestamp(List<Message> messages){
+        List<Message> sorted = new ArrayList<>(messages);
+        sorted.sort(new Comparator<Message>() {
+            @Override
+            public int compare(Message o1, Message o2) {
+                if (o1.getTimestamp() > o2.getTimestamp()) {
+                    return 1;
+                } else if (o1.getTimestamp() == o2.getTimestamp()) {
+                    return 0;
+                }
+                return -1;
+            }
+        });
+        return sorted;
     }
 
     private final MessageRepository messageRepository;
