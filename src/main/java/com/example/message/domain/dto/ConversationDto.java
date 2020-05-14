@@ -17,5 +17,7 @@ public class ConversationDto {
 
     @JsonProperty(value = "with")
     private final List<UserDto> with;
-
+    
+    @JsonProperty(value= "unread")
+    private final boolean unread;
 }

@@ -78,6 +78,15 @@ public class ConversationService {
         return true;
     }
 
+    public void markAsRead(long conversationId) {
+        Optional<Conversation> optionalConversation = conversationRepository.findById(conversationId);
+        if (optionalConversation.isPresent()){
+            Conversation conversation = optionalConversation.get();
+            conversation.setUnread(false);
+            conversationRepository.save(conversation);
+        }
+    }
+
     private final ConversationMapper conversationMapper;
     private final UserRepository userRepository;
     private final ConversationRepository conversationRepository;

@@ -14,8 +14,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Conversation {
 
-    public Conversation(List<User> with) {
+    public Conversation(List<User> with, boolean unread) {
         this.with = with;
+        this.unread = unread;
     }
 
     @Id
@@ -31,4 +32,8 @@ public class Conversation {
     )
     @Setter
     private List<User> with;
+
+    @Setter
+    @Column
+    private boolean unread;
 }

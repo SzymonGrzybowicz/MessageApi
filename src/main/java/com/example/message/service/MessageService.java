@@ -10,7 +10,6 @@ import com.example.message.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.jws.soap.SOAPBinding;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -30,7 +29,7 @@ public class MessageService {
     public void onNewMessage(Message message) {
         message.setTimestamp(System.currentTimeMillis());
         messageRepository.save(message);
-        creatConversationsInOtherUsers(message);
+        createConversationsInOtherUsers(message);
         messageNotifier.notify(message);
     }
 
@@ -38,14 +37,14 @@ public class MessageService {
         return messageRepository.findAll().stream().filter(m -> m.getConversation().getId() == conversationId).collect(Collectors.toList());
     }
 
-    private void creatConversationsInOtherUsers(Message message) {
+    private void createConversationsInOtherUsers(Message message) {
         for (User user: message.getConversation().getWith()) {
             List<Conversation> conversations = user.getConversations().stream().filter(c -> c.getWith().contains(message.getCreator())).collect(Collectors.toList());
             if (conversations.isEmpty()) {
                 List<User> users = new ArrayList<>(message.getConversation().getWith());
                 users.remove(user);
                 users.add(message.getCreator());
-                Conversation newConversation = new Conversation(users);
+                Conversation newConversation = new Conversation(users, true);
                 conversationRepository.save(newConversation);
                 Message newMessage = new Message(message.getContent(), message.getTimestamp(), message.getCreator(), newConversation);
                 messageRepository.save(newMessage);
@@ -53,6 +52,8 @@ public class MessageService {
                 userRepository.save(user);
             } else {
                 Conversation conversation = conversations.get(0);
+                conversation.setUnread(true);
+                conversationRepository.save(conversation);
                 Message newMessage = new Message(message.getContent(), message.getTimestamp(), message.getCreator(), conversation);
                 messageRepository.save(newMessage);
             }

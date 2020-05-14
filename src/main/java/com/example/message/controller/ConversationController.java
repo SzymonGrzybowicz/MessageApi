@@ -44,6 +44,11 @@ public class ConversationController {
         }
     }
 
+    @RequestMapping(method = RequestMethod.PATCH, value = "/markRead/{conversationId}")
+    public void markConversationAsRead(@PathVariable long conversationId){
+        conversationService.markAsRead(conversationId);
+    }
+
     private final ConversationService conversationService;
     private final ConversationMapper conversationMapper;
 }

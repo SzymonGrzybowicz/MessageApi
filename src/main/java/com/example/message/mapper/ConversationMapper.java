@@ -11,12 +11,12 @@ public class ConversationMapper implements IMapper<Conversation, ConversationDto
 
     @Override
     public Conversation mapToDomain(ConversationDto conversationDto) {
-        return new Conversation(conversationDto.getId(), userMapper.mapToDomainList(conversationDto.getWith()));
+        return new Conversation(conversationDto.getId(), userMapper.mapToDomainList(conversationDto.getWith()), conversationDto.isUnread());
     }
 
     @Override
     public ConversationDto mapToDto(Conversation conversation) {
-        return new ConversationDto(conversation.getId(), userMapper.mapToDtoList(conversation.getWith()));
+        return new ConversationDto(conversation.getId(), userMapper.mapToDtoList(conversation.getWith()), conversation.isUnread());
     }
 
     @Autowired
