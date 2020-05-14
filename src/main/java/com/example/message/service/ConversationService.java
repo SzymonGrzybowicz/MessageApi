@@ -68,6 +68,9 @@ public class ConversationService {
                 return false;
             }
         }
+        if (user.getConversations().stream().anyMatch( c -> c.getWith().contains(withUsers.get(0)))){
+            return false;
+        }
         conversation.setWith(withUsers);
         conversationRepository.save(conversation);
         user.getConversations().add(conversation);
